@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class KafkaApplication {
 
     public static void main(String[] args) {
+        //fuck you song
         SpringApplication.run(KafkaApplication.class, args);
     }
 
