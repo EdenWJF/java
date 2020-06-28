@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jinfa</groupId>
-    <artifactId>kafka</artifactId>
+    <artifactId>java-kafka</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kafka</name>
+    <name>java-kafka</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

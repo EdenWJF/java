@@ -4,29 +4,31 @@ import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
-public class KafkaProducerTs {
+public class ProducerSample {
 
     public static void main(String[] args) throws InterruptedException {
         Properties properties = new Properties();
         properties.put("bootstrap.servers", "localhost:9092");
-        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put("key.serializer", StringSerializer.class.getName());
+        properties.put("value.serializer", StringSerializer.class.getName());
 
         KafkaProducer<String, String> kafkaProducer = new KafkaProducer<>(properties);
+
         try {
             new Thread(() -> {
                 try {
-                    System.out.println("======================begin");
-                    for (int i = 0; i < 100; i++) {
+                    System.out.println("======================begin======================");
+                    for (int i = 0; i < 10; i++) {
                         String msg = "Message " + i;
-                        kafkaProducer.send(new ProducerRecord<>("HelloWorld", msg),new DemoProducerCallback());
+                        kafkaProducer.send(new ProducerRecord<>("HelloWorld", "hello", msg),new DemoProducerCallback());
                     }
 
-                    System.out.println("======================over");
+                    System.out.println("======================over======================");
                 }catch (Exception o) {
                     o.printStackTrace();
                 }
