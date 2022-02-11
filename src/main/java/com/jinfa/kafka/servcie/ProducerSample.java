@@ -13,7 +13,7 @@ public class ProducerSample {
 
     public static void main(String[] args) throws InterruptedException {
         Properties properties = new Properties();
-        properties.put("bootstrap.servers", "localhost:9092");
+        properties.put("bootstrap.servers", "localhost:9092,localhost:9093,localhost:9094");
         properties.put("key.serializer", StringSerializer.class.getName());
         properties.put("value.serializer", StringSerializer.class.getName());
 
@@ -25,7 +25,7 @@ public class ProducerSample {
                     System.out.println("======================begin======================");
                     for (int i = 0; i < 10; i++) {
                         String msg = "Message " + i;
-                        kafkaProducer.send(new ProducerRecord<>("HelloWorld", "hello", msg),new DemoProducerCallback());
+                        kafkaProducer.send(new ProducerRecord<>("TestTopic", "hello", msg),new DemoProducerCallback());
                     }
 
                     System.out.println("======================over======================");

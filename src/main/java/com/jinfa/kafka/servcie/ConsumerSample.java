@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ConsumerSample {
 
-    public static final String brokerList = "localhost:9092";
-    public static final String topic = "HelloWorld";
+    public static final String brokerList = "localhost:9092,localhost:9093,localhost:9094";
+    public static final String topic = "TestTopic";
     public static final String groupId = "group.demo";
     public static final AtomicBoolean isRunning = new AtomicBoolean(true);
 
@@ -32,7 +32,7 @@ public class ConsumerSample {
     public static void main(String[] args) {
         Properties props = initConfig();
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.assign(Collections.singletonList(new TopicPartition(topic, 0)));
+        consumer.subscribe(Collections.singletonList(topic));
 
         try {
             while (isRunning.get()) {
