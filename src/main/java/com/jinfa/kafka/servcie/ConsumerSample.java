@@ -26,6 +26,7 @@ public class ConsumerSample {
         props.put("group.id", groupId);
         props.put("client.id", "consumer.client.id.demo");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
+        props.put(ConsumerConfig.INTERCEPTOR_CLASSES_CONFIG, ConsumerInterceptorTTL.class.getName());
         return props;
     }
 
@@ -36,8 +37,7 @@ public class ConsumerSample {
 
         try {
             while (isRunning.get()) {
-                ConsumerRecords<String, String> records =
-                        consumer.poll(Duration.ofMillis(1000));
+                ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
                 //按照分区消费
                 for (TopicPartition partition : records.partitions()) {
                     List<ConsumerRecord<String, String>> partitionRecords = records.records(partition);
@@ -45,10 +45,10 @@ public class ConsumerSample {
                     for (ConsumerRecord<String, String> record : partitionRecords) {
                         System.out.println("topic = " + record.topic() + ", partition = "+ record.partition() + ", offset = " + record.offset());
                         System.out.println("key = " + record.key() + ", value = " + record.value());
-                        //do something to process record.
                     }
+                    // 异步提交位移
                     consumer.commitAsync(new OffsetCommitCallback() {
-
+                        // 提交成功回调
                         @Override
                         public void onComplete(Map<TopicPartition, OffsetAndMetadata> offsets, Exception exception) {
                             System.out.println(offsets);
